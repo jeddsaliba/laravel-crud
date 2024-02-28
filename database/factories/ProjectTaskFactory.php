@@ -7,9 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(ProjectTask::class, function (Faker $faker) {
     return [
-        'project_id' => $faker->numberBetween(1, 10),
-        'created_by' => $faker->numberBetween(1, 10),
-        'assigned_to' => $faker->numberBetween(1, 10),
+        'project_id' => $faker->numberBetween(1, 50),
+        'created_by' => $faker->numberBetween(1, 25),
+        'assigned_to' => $faker->numberBetween(1, 25),
         'name' => $faker->sentence(3),
         'description' => $faker->paragraph(5),
         'status' => $faker->randomElement(['Pending', 'Ongoing', 'Completed']),
