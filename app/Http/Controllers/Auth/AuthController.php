@@ -34,4 +34,8 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
         return response(['status' => true, 'message' => 'Logout successful.'], HttpServiceProvider::OK);
     }
+    public function testThis()
+    {
+        
+    }
 }

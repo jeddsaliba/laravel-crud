@@ -8,9 +8,14 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+use App\Providers\HttpServiceProvider;
+use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class User extends Authenticatable
 {
-  use HasApiTokens, Notifiable;
+  use HasApiTokens, Notifiable, SoftDeletes;
 
   protected $table = 'users';
 
@@ -20,7 +25,7 @@ class User extends Authenticatable
     'password',
     'email_verified_at'
   ];
-  
+
   protected $hidden = [
     'password',
     'remember_token',
@@ -56,18 +61,18 @@ class User extends Authenticatable
       return (object)['status' => false, 'message' => $errors->first()];
     }
     $login = $request->validate([
-        'email' => [
-            'required',
-            'email',
-            'min: 8',
-            'max: 100'
-        ],
-        'password' => [
-            'required',
-            'string',
-            'min: 8',
-            'max: 100'
-        ]
+      'email' => [
+        'required',
+        'email',
+        'min: 8',
+        'max: 100'
+      ],
+      'password' => [
+        'required',
+        'string',
+        'min: 8',
+        'max: 100'
+      ]
     ]);
     if (!Auth::attempt($login)) {
       return (object)['status' => false, 'message' => 'Invalid login credentials.'];
@@ -78,5 +83,26 @@ class User extends Authenticatable
     }
     $user = User::find(Auth::user()->id);
     return (object)['status' => true, 'message' => 'Welcome, ' . $user->name . '!', 'data' => $user];
+  }
+  public function list(Request $request)
+  {
+    try {
+      $data = User::when($request->q, function ($query) use ($request) {
+        $query->where("name", "like", "%$request->q%")
+          ->orWhere("email", "like", "%$request->q%");
+      });
+      return (object)[
+        'status' => true,
+        'code' => HttpServiceProvider::OK,
+        'message' => 'User list.',
+        'result' => $data->paginate($request->limit ?? 10)
+      ];
+    } catch (Exception $e) {
+      return (object)[
+        'status' => false,
+        'code' => HttpServiceProvider::BAD_REQUEST,
+        'message' => $e->getMessage()
+      ];
+    }
   }
 }

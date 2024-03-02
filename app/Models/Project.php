@@ -48,12 +48,34 @@ class Project extends Model
             $data = Project::when($request->q, function ($query) use ($request) {
                 $query->where("name", "like", "%$request->q%")
                     ->orWhere("description", "like", "%$request->q%");
+            })->when($request->sort && $request->direction, function ($query) use ($request) {
+                $query->orderBy($request->sort, $request->direction);
             });
+            $total = $data->get()->count();
             return (object)[
                 'status' => true,
                 'code' => HttpServiceProvider::OK,
-                'message' => 'Customer list.',
+                'message' => $total ? 'Project list.' : 'No record found.',
                 'result' => $data->paginate($request->limit ?? 10)
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function view(int $id)
+    {
+        try {
+            $data = Project::findOrFail($id);
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Project details.',
+                'result' => $data
             ];
         } catch (Exception $e) {
             return (object)[
