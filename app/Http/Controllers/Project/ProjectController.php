@@ -42,4 +42,9 @@ class ProjectController extends Controller
         $data = $this->_project->deleteProject($id);
         return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
     }
+    public function taskList(Request $request, $id)
+    {
+        $data = $this->_project->taskList($request, $id);
+        return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
+    }
 }

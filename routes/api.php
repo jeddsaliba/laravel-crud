@@ -29,7 +29,10 @@ Route::group(['middleware' => [
     });
     Route::group(['prefix' => 'project', 'middleware' => [HashIdMiddleware::class]], function() {
         Route::get('/list', [ProjectController::class, 'list']);
-        Route::get('/view/{id}', [ProjectController::class, 'view']);
+        Route::group(['prefix' => 'view'], function() {
+            Route::get('/{id}', [ProjectController::class, 'view']);
+            Route::get('/{id}/task', [ProjectController::class, 'taskList']);
+        });
         Route::post('/create', [ProjectController::class, 'create']);
         Route::put('/update/{id}', [ProjectController::class, 'update']);
         Route::delete('/delete/{id}', [ProjectController::class, 'delete']);
