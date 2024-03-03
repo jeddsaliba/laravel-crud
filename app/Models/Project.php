@@ -151,29 +151,4 @@ class Project extends Model
             ];
         }
     }
-
-    public function taskList(Request $request, int $id)
-    {
-        try {
-            $data = ProjectTask::where(['project_id' => $id])->when($request->q, function ($query) use ($request) {
-                $query->where("name", "like", "%$request->q%")
-                    ->orWhere("description", "like", "%$request->q%");
-            })->when($request->sort && $request->direction, function ($query) use ($request) {
-                $query->orderBy($request->sort, $request->direction);
-            });
-            $total = $data->get()->count();
-            return (object)[
-                'status' => true,
-                'code' => HttpServiceProvider::OK,
-                'message' => $total ? 'Project task list.' : 'No record found.',
-                'result' => $data->paginate($request->limit ?? 10)
-            ];
-        } catch (Exception $e) {
-            return (object)[
-                'status' => false,
-                'code' => HttpServiceProvider::BAD_REQUEST,
-                'message' => $e->getMessage()
-            ];
-        }
-    }
 }

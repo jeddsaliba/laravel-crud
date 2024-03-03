@@ -54,18 +54,22 @@ class ProjectTask extends Model
         return User::findOrFail($this->assigned_to)->name;
     }
 
-    public function list(Request $request, $project_id)
+    public function list(Request $request, int $projectID)
     {
         try {
-            $data = ProjectTask::where(['project_id' => $project_id])->when($request->q, function ($query) use ($request) {
-                $query->where("name", "like", "%$request->q%")
-                    ->orWhere("description", "like", "%$request->q%")
-                    ->orWhere("status", "like", "%$request->q%");
-            });
+            $data = ProjectTask::where(['project_id' => $projectID])
+                ->where(function ($query) use ($request) {
+                    $query->when($request->q, function ($query) use ($request) {
+                        $query->where("name", "like", "%$request->q%")
+                            ->orWhere("description", "like", "%$request->q%")
+                            ->orWhere("status", "like", "%$request->q%");
+                    });
+                });
+            $total = $data->get()->count();
             return (object)[
                 'status' => true,
                 'code' => HttpServiceProvider::OK,
-                'message' => 'Project task list.',
+                'message' => $total ? 'Project task list.' : 'No record found.',
                 'result' => $data->paginate($request->limit ?? 10)
             ];
         } catch (Exception $e) {
@@ -77,7 +81,26 @@ class ProjectTask extends Model
         }
     }
 
-    public function create(Request $request, $userID, $id = NULL)
+    public function view(int $id, int $taskid)
+    {
+        try {
+            $data = ProjectTask::where(['project_id' => $id, 'id' => $taskid])->firstOrFail();
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Project task details.',
+                'result' => $data
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function create(Request $request, int $userID, int $id, int $taskid = NULL)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -119,9 +142,10 @@ class ProjectTask extends Model
                 throw new Exception($errors->first());
             }
             $data = ProjectTask::updateOrCreate([
-                'id' => $id
+                'id' => $taskid,
+                'project_id' => $id
             ], [
-                'project_id' => $request->project_id,
+                'project_id' => $id,
                 'created_by' => $userID,
                 'assigned_to' => $request->assigned_to,
                 'name' => $request->name,
@@ -145,10 +169,13 @@ class ProjectTask extends Model
         }
     }
 
-    public function deleteProject($id)
+    public function deleteProjectTask(int $projectID, int $id)
     {
         try {
-            $data = ProjectTask::findOrFail($id);
+            $data = ProjectTask::where([
+                'id' => $id,
+                'project_id' => $projectID
+            ])->firstOrFail();
             $data->delete();
             return (object)[
                 'status' => true,
