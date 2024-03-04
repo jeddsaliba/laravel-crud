@@ -91,11 +91,12 @@ class User extends Authenticatable
         $query->where("name", "like", "%$request->q%")
           ->orWhere("email", "like", "%$request->q%");
       });
+      $total = $data->get()->count();
       return (object)[
         'status' => true,
         'code' => HttpServiceProvider::OK,
-        'message' => 'User list.',
-        'result' => $data->paginate($request->limit ?? 10)
+        'message' => $total ? 'User list.' : 'No record found.',
+        'result' => collect($request->all())->isEmpty() ? ['data' => $data->get()] : $data->paginate($request->limit ?? 10)
       ];
     } catch (Exception $e) {
       return (object)[
