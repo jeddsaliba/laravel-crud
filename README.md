@@ -6,6 +6,7 @@ The purpose of this project is to showcase a Laravel Project with basic CRUD fun
 
 ## Table of Contents
 [Installation](#installation)<br/>
+[Package(s) Used](#packages-used)<br/>
 [Database](#database)<br/>
 [Development Server](#development-server)<br/>
 [Support](#support)
@@ -19,6 +20,10 @@ Install the `dependencies` by running:
 ```bash
 composer install
 ```
+
+<a name="packages-used"></a>
+## Package(s) Used
+- [Hashids](https://packagist.org/packages/hashids/hashids)
 
 <a name="installation"></a>
 ## Database
