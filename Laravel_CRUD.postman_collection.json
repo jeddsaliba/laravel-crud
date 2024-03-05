@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "8efb08d2-df79-4db3-9b8e-d9709167874a",
+		"name": "Laravel CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5428104"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@admin.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "3|8sDuuEwubp3FiKwKTs8AZTCtuVpRdxHXOlzW74c1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/auth/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|Nkpxm5u9Z4hRyiwPoKtHMtmTDMxShsmUQJfNrSu6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/project/list?page=1&limit=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|1rZN4vwegpJyPoPe70cI7GFkl7ME125cMbt8LdEM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/project/view/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"view",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dya2J1aJpjQm"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|Nkpxm5u9Z4hRyiwPoKtHMtmTDMxShsmUQJfNrSu6",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/project/delete/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dya2J1aJpjQm"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "This is a name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/project/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "This is a name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/project/update/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3wjaRLL2RGpK"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/task/:project_id/list?page=1&limit=10&sort=id&direction=asc&q=vol",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								":project_id",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "id"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								},
+								{
+									"key": "q",
+									"value": "vol"
+								}
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "12dKR2jr6jLB"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|1rZN4vwegpJyPoPe70cI7GFkl7ME125cMbt8LdEM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/project/view/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"view",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dya2J1aJpjQm"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/task/:project_id/delete/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								":project_id",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "dya2J1aJpjQm"
+								},
+								{
+									"key": "id",
+									"value": "dya2J1NoRpjQ"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "This is a name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a description",
+									"type": "text"
+								},
+								{
+									"key": "assigned_to",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2020-01-04",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "2020-01-13",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "Pending",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/task/:project_id/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								":project_id",
+								"create"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "3wjaRLL2RGpK"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "This is a name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is a description",
+									"type": "text"
+								},
+								{
+									"key": "assigned_to",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2020-01-04",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "2020-01-13",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "Pending",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/task/:project_id/update/:task_id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								":project_id",
+								"update",
+								":task_id"
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "3wjaRLL2RGpK"
+								},
+								{
+									"key": "task_id",
+									"value": "dya2J1NoRpjQ"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chart",
+			"item": [
+				{
+					"name": "Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chart/status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chart",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top Performers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chart/top-performers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chart",
+								"top-performers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/list?page=1&limit=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List (All)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
