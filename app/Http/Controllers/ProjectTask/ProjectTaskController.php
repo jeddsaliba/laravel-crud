@@ -28,16 +28,17 @@ class ProjectTaskController extends Controller
         $data = $this->_projectTask->view($id, $taskid);
         return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
     }
-    public function create(Request $request, int $id)
+    public function create(Request $request, int $projectID)
     {
-        $data = $this->_projectTask->create($request, Auth::user()->id, $id);
+        $request->request->add(['project_id' => $projectID]);
+        $data = $this->_projectTask->create($request, Auth::user()->id);
         return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
     }
     public function update(Request $request, int $projectID, int $id)
     {
         $request->request->add(['project_id' => $projectID]);
         $request->request->add(['id' => $id]);
-        $data = $this->_projectTask->create($request, Auth::user()->id, $projectID, $id);
+        $data = $this->_projectTask->create($request, Auth::user()->id, $id);
         return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
     }
     public function delete(Request $request, int $projectID, int $id)

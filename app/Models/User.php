@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\HttpServiceProvider;
 use Illuminate\Http\Request;
 use Exception;
-use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable

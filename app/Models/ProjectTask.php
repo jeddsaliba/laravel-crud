@@ -101,7 +101,7 @@ class ProjectTask extends Model
         }
     }
 
-    public function create(Request $request, int $userID, int $id, int $taskid = NULL)
+    public function create(Request $request, int $userID, int $id = NULL)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -143,10 +143,10 @@ class ProjectTask extends Model
                 throw new Exception($errors->first());
             }
             $data = ProjectTask::updateOrCreate([
-                'id' => $taskid,
-                'project_id' => $id
+                'id' => $id,
+                'project_id' => $request->project_id
             ], [
-                'project_id' => $id,
+                'project_id' => $request->project_id,
                 'created_by' => $userID,
                 'assigned_to' => $request->assigned_to,
                 'name' => $request->name,

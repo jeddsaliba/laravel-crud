@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class CreateUsersTable extends Migration
 {
@@ -23,6 +25,17 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::table('users')->insert(
+            array(
+                [
+                    'name' => 'Admin',
+                    'email' => 'admin@admin.com',
+                    'email_verified_at' => now(),
+                    'password' => Hash::make('password'),
+                    'remember_token' => Str::random(10)
+                ]
+            )
+        );
     }
 
     /**
