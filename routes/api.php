@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Chart\ChartController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\ProjectTask\ProjectTaskController;
 use App\Http\Controllers\User\UserController;
@@ -30,6 +31,10 @@ Route::group(['middleware' => [
         Route::post('/logout', [AuthController::class, 'logout']);
     });
     Route::group(['middleware' => [HashIdMiddleware::class]], function() {
+        Route::group(['prefix' => 'chart'], function() {
+            Route::get('/status', [ChartController::class, 'status']);
+            Route::get('/top-performers', [ChartController::class, 'topPerformers']);
+        });
         Route::group(['prefix' => 'project'], function() {
             Route::get('/list', [ProjectController::class, 'list']);
             Route::get('/view/{id}', [ProjectController::class, 'view']);

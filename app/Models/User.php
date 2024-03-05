@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\HttpServiceProvider;
 use Illuminate\Http\Request;
 use Exception;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
@@ -90,6 +91,8 @@ class User extends Authenticatable
       $data = User::when($request->q, function ($query) use ($request) {
         $query->where("name", "like", "%$request->q%")
           ->orWhere("email", "like", "%$request->q%");
+      })->when($request->sort && $request->direction, function ($query) use ($request) {
+        $query->orderBy($request->sort, $request->direction);
       });
       $total = $data->get()->count();
       return (object)[

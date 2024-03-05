@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class ProjectTask extends Model
 {
@@ -181,6 +182,68 @@ class ProjectTask extends Model
                 'status' => true,
                 'code' => HttpServiceProvider::OK,
                 'message' => 'Project task deleted.',
+                'result' => $data
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    public function status()
+    {
+        try {
+            $data = ProjectTask::select('status', DB::raw('count(*) as total'))->groupBy('status')->get();
+            $data = $data->map(function ($value) {
+                return [
+                    'label' => $value->status,
+                    'value' => $value->total
+                ];
+            });
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Project task status.',
+                'result' => $data
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    public function topPerformers()
+    {
+        try {
+            $data = ProjectTask::select('assigned_to', DB::raw('count(*) as total'))
+                ->orderBy('total', 'desc')
+                ->limit(10)
+                ->groupBy('assigned_to')
+                ->get();
+            $data = $data->map(function ($value) {
+                $performance = ProjectTask::select('status', DB::raw('count(*) as total'))
+                    ->where(['assigned_to' => $value->assigned_to])
+                    ->groupBy('status')->orderBy('status', 'asc')->get()->map(function ($val) {
+                        return [
+                            'label' => $val->status,
+                            'value' => $val->total
+                        ];
+                    });
+                return [
+                    'assigned_to' => $value->assigned_to,
+                    'assigned_to_name' => $value->assigned_to_name,
+                    'total' => $value->total,
+                    'performance' => $performance
+                ];
+            });
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Top performers.',
                 'result' => $data
             ];
         } catch (Exception $e) {
