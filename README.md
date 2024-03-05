@@ -12,7 +12,8 @@ The purpose of this project is to showcase a Laravel Project with basic CRUD fun
 
 <a name="installation"></a>
 ## Installation
-When using [Postman](https://www.postman.com/), download the Postman API Collection [here](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/jeddsaliba/laravel-crud/blob/master/Laravel_CRUD.postman_collection.json).<br/>
+When using [Postman](https://www.postman.com/), download the Postman API Collection [here](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/jeddsaliba/laravel-crud/blob/master/Laravel_CRUD.postman_collection.json).
+
 Install the `dependencies` by running:
 
 ```bash
