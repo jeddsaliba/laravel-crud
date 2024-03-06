@@ -29,4 +29,9 @@ class ChartController extends Controller
         $data = $this->_projectTask->topPerformers();
         return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
     }
+    public function performance(Request $request)
+    {
+        $data = $this->_projectTask->performance($request->year);
+        return response(['status' => $data->status, 'code' => $data->code, 'message' => $data->message, 'result' => $data->result ?? NULL], $data->code);
+    }
 }

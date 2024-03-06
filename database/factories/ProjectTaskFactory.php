@@ -13,7 +13,9 @@ $factory->define(ProjectTask::class, function (Faker $faker) {
         'name' => $faker->sentence(3),
         'description' => $faker->paragraph(5),
         'status' => $faker->randomElement(['Pending', 'Ongoing', 'Completed']),
-        'start_date' => $faker->dateTimeBetween('-2 weeks', 'now'),
-        'end_date' => $faker->dateTimeBetween('+1 week', '+3 months')
+        'created_at' => $faker->dateTimeThisYear(),
+        'updated_at' => $faker->dateTimeThisYear('+12 months'),
+        'start_date' => $faker->dateTimeThisYear('+12 months'),
+        'end_date' => $faker->dateTimeThisYear('+12 months')
     ];
 });

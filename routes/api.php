@@ -34,6 +34,7 @@ Route::group(['middleware' => [
         Route::group(['prefix' => 'chart'], function() {
             Route::get('/status', [ChartController::class, 'status']);
             Route::get('/top-performers', [ChartController::class, 'topPerformers']);
+            Route::get('/performance', [ChartController::class, 'performance']);
         });
         Route::group(['prefix' => 'project'], function() {
             Route::get('/list', [ProjectController::class, 'list']);

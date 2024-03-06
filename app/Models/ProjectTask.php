@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ProjectTask extends Model
 {
@@ -258,6 +259,71 @@ class ProjectTask extends Model
                             'label' => 'Completed',
                             'data' => $completed
                         ]
+                    ]
+                ]
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+    public function performance(int $year)
+    {
+        try {
+            $labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            ];
+            $pending = [
+                'label' => 'Pending',
+                'data' => [],
+                'fill' => true,
+                'tension' => 0.5
+            ];
+            $ongoing = [
+                'label' => 'Ongoing',
+                'data' => [],
+                'fill' => true,
+                'tension' => 0.5
+            ];
+            $completed = [
+                'label' => 'Completed',
+                'data' => [],
+                'fill' => true,
+                'tension' => 0.5
+            ];
+            foreach ($labels as $label) {
+                $month = Carbon::parse($label)->month;
+                $pendingCount = ProjectTask::where(['status' => 'Pending'])->whereYear('updated_at', $year)->whereMonth('updated_at', $month)->get()->count();
+                $pending['data'][] = $pendingCount;
+                $ongoingCount = ProjectTask::where(['status' => 'Ongoing'])->whereYear('updated_at', $year)->whereMonth('updated_at', $month)->get()->count();
+                $ongoing['data'][] = $ongoingCount;
+                $completedCount = ProjectTask::where(['status' => 'Completed'])->whereYear('updated_at', $year)->whereMonth('updated_at', $month)->get()->count();
+                $completed['data'][] = $completedCount;
+            }
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Project task status.',
+                'result' => [
+                    'labels' => $labels,
+                    'datasets' => [
+                        $pending,
+                        $ongoing,
+                        $completed
                     ]
                 ]
             ];
