@@ -14,7 +14,7 @@ class HttpServiceProvider extends ServiceProvider
     CONST BAD_REQUEST_MESSAGE = 'You are missing some parameters.';
     CONST NOT_AUTHORIZED_MESSAGE = 'You are not logged in.';
     CONST FORBIDDEN_ACCESS_MESSAGE = 'You are not allowed to access this module.';
-    CONST NOT_FOUND_MESSAGE = 'The API you are trying to access does not exist.';
+    CONST NOT_FOUND_MESSAGE = 'The record you are trying to access does not exist.';
 
     CONST OK = 200;
     CONST CREATED = 201;

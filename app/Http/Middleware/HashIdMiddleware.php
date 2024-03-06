@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Hashids\Hashids;
+use App\Providers\HttpServiceProvider;
 
 class HashIdMiddleware {
     public function handle(Request $request, Closure $next)
@@ -17,7 +18,7 @@ class HashIdMiddleware {
             });
             return $next($request);
         } catch (\Exception $e) {
-            return response(['status' => false, 'code' => 400, 'message' => $e->getMessage(), 'result' => NULL], 400);
+            return response(['status' => false, 'code' => HttpServiceProvider::NOT_FOUND, 'message' => HttpServiceProvider::NOT_FOUND_MESSAGE, 'result' => NULL], HttpServiceProvider::NOT_FOUND);
         }
     }
 }
