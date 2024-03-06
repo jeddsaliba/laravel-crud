@@ -195,18 +195,21 @@ class ProjectTask extends Model
     public function status()
     {
         try {
-            $data = ProjectTask::select('status', DB::raw('count(*) as total'))->groupBy('status')->get();
-            $data = $data->map(function ($value) {
-                return [
-                    'label' => $value->status,
-                    'value' => $value->total
-                ];
-            });
+            $pendingCount = ProjectTask::where(['status' => 'Pending'])->get()->count();
+            $ongoingCount = ProjectTask::where(['status' => 'Ongoing'])->get()->count();
+            $completedCount = ProjectTask::where(['status' => 'Completed'])->get()->count();
             return (object)[
                 'status' => true,
                 'code' => HttpServiceProvider::OK,
                 'message' => 'Project task status.',
-                'result' => $data
+                'result' => [
+                    'labels' => ['Pending', 'Ongoing', 'Completed'],
+                    'data' => [
+                        $pendingCount,
+                        $ongoingCount,
+                        $completedCount
+                    ]
+                ]
             ];
         } catch (Exception $e) {
             return (object)[
@@ -224,27 +227,39 @@ class ProjectTask extends Model
                 ->limit(10)
                 ->groupBy('assigned_to')
                 ->get();
-            $data = $data->map(function ($value) {
-                $performance = ProjectTask::select('status', DB::raw('count(*) as total'))
-                    ->where(['assigned_to' => $value->assigned_to])
-                    ->groupBy('status')->orderBy('status', 'asc')->get()->map(function ($val) {
-                        return [
-                            'label' => $val->status,
-                            'value' => $val->total
-                        ];
-                    });
-                return [
-                    'assigned_to' => $value->assigned_to,
-                    'assigned_to_name' => $value->assigned_to_name,
-                    'total' => $value->total,
-                    'performance' => $performance
-                ];
-            });
+            $assigned_to_names = $data->pluck('assigned_to_name');
+            $pending = [];
+            $ongoing = [];
+            $completed = [];
+            foreach ($data as $user) {
+                $pendingCount = ProjectTask::where(['status' => 'Pending', 'assigned_to' => $user->assigned_to])->get()->count();
+                $pending[] = $pendingCount;
+                $ongoingCount = ProjectTask::where(['status' => 'Ongoing', 'assigned_to' => $user->assigned_to])->get()->count();
+                $ongoing[] = $ongoingCount;
+                $completedCount = ProjectTask::where(['status' => 'Completed', 'assigned_to' => $user->assigned_to])->get()->count();
+                $completed[] = $completedCount;
+            }
             return (object)[
                 'status' => true,
                 'code' => HttpServiceProvider::OK,
                 'message' => 'Top performers.',
-                'result' => $data
+                'result' => [
+                    'labels' => $assigned_to_names,
+                    'datasets' => [
+                        [
+                            'label' => 'Pending',
+                            'data' => $pending
+                        ],
+                        [
+                            'label' => 'Ongoing',
+                            'data' => $ongoing
+                        ],
+                        [
+                            'label' => 'Completed',
+                            'data' => $completed
+                        ]
+                    ]
+                ]
             ];
         } catch (Exception $e) {
             return (object)[
