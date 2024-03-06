@@ -24,6 +24,12 @@ composer install
 <a name="packages-used"></a>
 ## Package(s) Used
 - [Hashids](https://packagist.org/packages/hashids/hashids)
+    - For Hashids, please add the following to your `.env`:
+      ```bash
+      HASH_SALT=
+      HASH_MIN_LENGTH=
+      HASH_ALPHABET=
+      ```
 
 <a name="installation"></a>
 ## Database
