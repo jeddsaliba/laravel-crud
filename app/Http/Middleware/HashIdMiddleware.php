@@ -10,7 +10,7 @@ class HashIdMiddleware {
     {
         try {
             $payload = $request->route()->parameters();
-            $hashids = new Hashids(env('HASH_SALT'), 12, env('HASH_SECRET_KEY'));
+            $hashids = new Hashids(env('HASH_SALT'), env('HASH_MIN_LENGTH'), env('HASH_ALPHABET'));
             collect((object)$payload)->each(function ($param, $key) use ($hashids, $request) {
                 $decodedID = $hashids->decode($param)[0];
                 $request->route()->setParameter($key, $decodedID);
