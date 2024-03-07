@@ -143,12 +143,15 @@ class ProjectTask extends Model
                 $errors = $validator->errors();
                 throw new Exception($errors->first());
             }
+            $data = ProjectTask::when($id, function ($query) use ($id) {
+                $query->where(['id' => $id]);
+            })->first();
             $data = ProjectTask::updateOrCreate([
                 'id' => $id,
                 'project_id' => $request->project_id
             ], [
                 'project_id' => $request->project_id,
-                'created_by' => $userID,
+                'created_by' => $id ? $data->created_by : $userID,
                 'assigned_to' => $request->assigned_to,
                 'name' => $request->name,
                 'description' => $request->description,
