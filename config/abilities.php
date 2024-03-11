@@ -1,6 +1,8 @@
 <?php
 return [
     'auth-login',
-    'auth-logout'
+    'auth-logout',
+    'project',
+    'project-task'
 ];
 ?>

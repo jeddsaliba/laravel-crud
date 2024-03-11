@@ -154,4 +154,21 @@ class Project extends Model
             ];
         }
     }
+    public function reportProject(Request $request)
+    {
+        try {
+            return (object)[
+                'status' => true,
+                'code' => HttpServiceProvider::OK,
+                'message' => 'Project deleted.',
+                'result' => []
+            ];
+        } catch (Exception $e) {
+            return (object)[
+                'status' => false,
+                'code' => HttpServiceProvider::BAD_REQUEST,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
 }
