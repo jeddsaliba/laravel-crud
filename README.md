@@ -26,9 +26,9 @@ composer install
 - [Hashids](https://packagist.org/packages/hashids/hashids)
     - For Hashids, you can add and modify the following in your `.env`:
       ```bash
-      HASH_SALT=s72GRGmT59LrNdU6vMVmjQKSahF9gJ9ll1Wjmm3wcBFj7op9ty
+      HASH_SALT=HASH_ID_SALT
       HASH_MIN_LENGTH=12
-      HASH_ALPHABET=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
+      HASH_ALPHABET=HASH_ID_ALPHABET
       ```
 
 <a name="installation"></a>
