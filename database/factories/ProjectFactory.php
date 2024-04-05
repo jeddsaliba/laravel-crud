@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Project::class, function (Faker $faker) {
     return [
-        'created_by' => $faker->numberBetween(1, 20),
+        'created_by' => $faker->numberBetween(1, 15),
         'name' => $faker->sentence(3),
         'description' => $faker->paragraph(5)
     ];
