@@ -44,6 +44,48 @@
 					"response": []
 				},
 				{
+					"name": "User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Logout",
 					"request": {
 						"auth": {
@@ -51,7 +93,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "3|8sDuuEwubp3FiKwKTs8AZTCtuVpRdxHXOlzW74c1",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -85,7 +127,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "4|Nkpxm5u9Z4hRyiwPoKtHMtmTDMxShsmUQJfNrSu6",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -93,7 +135,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/project/list?page=1&limit=10",
+							"raw": "{{url}}/api/project/list?page=1&limit=10api/project/list?page=1&limit=10&sort=id&direction=asc",
 							"host": [
 								"{{url}}"
 							],
@@ -109,7 +151,19 @@
 								},
 								{
 									"key": "limit",
+									"value": "10api/project/list?page=1"
+								},
+								{
+									"key": "limit",
 									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "id"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
 								}
 							]
 						}
@@ -145,7 +199,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "dya2J1aJpjQm"
+									"value": "z2Jr96OGjMKP"
 								}
 							]
 						}
@@ -362,21 +416,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/project/view/:id",
+							"raw": "{{url}}/api/task/z2Jr96OGjMKP/view/W1dMR7JYQq8X",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"project",
+								"task",
+								"z2Jr96OGjMKP",
 								"view",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "dya2J1aJpjQm"
-								}
+								"W1dMR7JYQq8X"
 							]
 						}
 					},
@@ -628,6 +677,41 @@
 								"api",
 								"chart",
 								"top-performers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Performance Per Month",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/chart/performance?year=2020",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"chart",
+								"performance"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2020"
+								}
 							]
 						}
 					},
