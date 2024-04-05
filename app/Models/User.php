@@ -84,6 +84,24 @@ class User extends Authenticatable
     $user = User::find(Auth::user()->id);
     return (object)['status' => true, 'message' => 'Welcome, ' . $user->name . '!', 'data' => $user];
   }
+  public function user()
+  {
+    try {
+      $user = auth()->user();
+      return (object)[
+        'status' => true,
+        'code' => HttpServiceProvider::OK,
+        'message' => 'Logged in user',
+        'data' => $user
+      ];
+    } catch (Exception $e) {
+      return (object)[
+        'status' => false,
+        'code' => HttpServiceProvider::BAD_REQUEST,
+        'message' => $e->getMessage()
+      ];
+    }
+  }
   public function list(Request $request)
   {
     try {

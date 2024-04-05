@@ -33,6 +33,7 @@ Route::group(['middleware' => [
 ], function() {
     Route::group(['prefix' => 'auth'], function() {
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/user', [AuthController::class, 'user']);
     });
     Route::group(['middleware' => [HashIdMiddleware::class]], function() {
         Route::group(['prefix' => 'chart'], function() {

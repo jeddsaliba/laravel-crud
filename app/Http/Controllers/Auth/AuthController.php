@@ -25,6 +25,14 @@ class AuthController extends Controller
         $accessToken = $user->data->createToken('abilities', config('abilities'));
         return response(['status' => $user->status, 'message' => $user->message, 'result' => ['user' => $user->data, 'access_token' => $accessToken->plainTextToken]], HttpServiceProvider::OK);
     }
+    public function user(Request $request)
+    {
+        if (!Auth::user()->tokenCan('auth-user')) {
+            return response(['status' => false, 'message' => HttpServiceProvider::FORBIDDEN_ACCESS_MESSAGE], HttpServiceProvider::FORBIDDEN_ACCESS);
+        }
+        $user = $this->_user->user();
+        return response(['status' => $user->status, 'message' => $user->message, 'result' => ['user' => $user->data]], HttpServiceProvider::OK);
+    }
     public function logout(Request $request)
     {
         if (!Auth::user()->tokenCan('auth-logout')) {
