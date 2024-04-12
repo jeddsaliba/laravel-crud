@@ -58,7 +58,7 @@ class User extends Authenticatable
     ]);
     if ($validator->fails()) {
       $errors = $validator->errors();
-      return (object)['status' => false, 'message' => $errors->first()];
+      return (object)['status' => false, 'message' => $errors->first(), 'errors' => $errors];
     }
     $login = $request->validate([
       'email' => [
@@ -75,11 +75,11 @@ class User extends Authenticatable
       ]
     ]);
     if (!Auth::attempt($login)) {
-      return (object)['status' => false, 'message' => 'Invalid login credentials.'];
+      return (object)['status' => false, 'message' => 'Invalid login credentials.', 'errors' => ['error' => 'Invalid login credentials.']];
     }
     $user = Auth::user();
     if (!$user) {
-      return (object)['status' => false, 'message' => 'Invalid login credentials.'];
+      return (object)['status' => false, 'message' => 'Invalid login credentials.', 'errors' => ['error' => 'Invalid login credentials.']];
     }
     $user = User::find(Auth::user()->id);
     return (object)['status' => true, 'message' => 'Welcome, ' . $user->name . '!', 'data' => $user];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['prefix' => 'login'], function() {
+    Route::get('/', [AuthController::class, 'loginPage']);
+    Route::post('/', [AuthController::class, 'loginRequest']);
+});
+Route::get('/dashboard', [DashboardController::class, 'index']);

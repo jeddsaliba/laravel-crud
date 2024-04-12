@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\HttpServiceProvider;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -20,6 +23,9 @@ class AuthController extends Controller
     {
         $user = $this->_user->login($request);
         if (!$user->status) {
+            if ($request->type && $user->errors) {
+                return redirect('login')->withErrors($user->errors);
+            }
             return response(['status' => $user->status, 'message' => $user->message], HttpServiceProvider::BAD_REQUEST);
         }
         $accessToken = $user->data->createToken('abilities', config('abilities'));
@@ -42,8 +48,18 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
         return response(['status' => true, 'message' => 'Logout successful.'], HttpServiceProvider::OK);
     }
-    public function testThis()
+    public function loginPage()
     {
-        
+        return view('pages.auth.login.index');
+    }
+    public function loginRequest(Request $request)
+    {
+        return $this->login($request);
+        // $user = $this->_user->login($request);
+        // if (!$user->status) {
+        //     if ($user->errors) {
+        //         return back()->withErrors($user->errors);
+        //     }
+        // }
     }
 }
